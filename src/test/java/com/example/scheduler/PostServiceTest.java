@@ -91,6 +91,45 @@ public class PostServiceTest {
     }
 
     @Test
+    @DisplayName("Post 수정 테스트 실패")
+    public void testUpdateFail() {
+
+        // Given
+        Long userId = 100L;
+        User user = new User();
+        user.setId(userId);
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+        given(userRepository.findById(userId)).willReturn(Optional.of(user));
+
+
+
+        Long postId = 100L;
+        PostEntity post = PostEntity.builder()
+                .Id(postId)
+                .user(user)
+                .finished(false)
+                .title("원래 제목입니다.")
+                .content("원래 내용입니다.")
+                .build();
+
+        PostRequestDto postRequestDto = new PostRequestDto("수정한 제목", "수정한 내용");
+
+
+        given(postRepository.findByUserAndId(user,postId)).willReturn(Optional.empty());
+
+        // When
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> postService.updatePost(postId,postRequestDto, userDetails));
+
+        // Then
+        assertEquals(
+                "알맞는 사용자가 아니거나 해당 게시글을 찾을 수 없습니다.",
+                exception.getMessage()
+        );
+
+    }
+
+    @Test
     @DisplayName("단일 Post 가져오기")
     public void testGetPost() {
         // Given
