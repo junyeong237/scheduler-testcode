@@ -18,15 +18,12 @@ public class ReplyEntity extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-   //@ManyToOne(fetch = FetchType.LAZY) //왜 안될까
-
     @ManyToOne
     @JoinColumn(name = "userId")
     @JsonIgnore
     //@ToString.Exclude
     private User user;
 
-    //@Column(columnDefinition = "TEXT") //TEXT속성을 맞추는거
     @Column(nullable = false)
     private String content;
 
@@ -36,7 +33,6 @@ public class ReplyEntity extends Timestamped {
     @ManyToOne //(fetch = FetchType.LAZY)
     @JoinColumn(name = "postId")
     @JsonIgnore
-    //@ToString.Exclude
     private PostEntity post;
 
     public void update(ReplyRequestDto replyRequestDto) {
