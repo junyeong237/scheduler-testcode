@@ -87,7 +87,7 @@ public class ReplyServiceTest {
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
 
 
-        Mockito.when(postRepository.findById(postId)).thenReturn(Optional.empty());
+        given(postRepository.findById(postId)).willReturn(Optional.empty());
         //Mockito.when(postRepository.findById(postId)).thenReturn(null);
         // null을 반환하는 경우에는 orElseThrow에서 예외를 던지기 전에 null이 들어가서 NullPointerException이 발생?
 
