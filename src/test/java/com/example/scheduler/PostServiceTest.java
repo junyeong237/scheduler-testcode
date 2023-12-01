@@ -50,8 +50,71 @@ public class PostServiceTest {
 
     }
 
+    @Test
+    @DisplayName("Post 수정 테스트")
+    public void testUpdate() {
+
+        // Given
+        Long userId = 100L;
+        User user = new User();
+        user.setId(userId);
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+        given(userRepository.findById(userId)).willReturn(Optional.of(user));
 
 
+
+        Long postId = 100L;
+        PostEntity post = PostEntity.builder()
+                .Id(postId)
+                .user(user)
+                .finished(false)
+                .title("원래 제목입니다.")
+                .content("원래 내용입니다.")
+                .build();
+
+        PostRequestDto postRequestDto = new PostRequestDto("수정한 제목", "수정한 내용");
+
+
+        given(postRepository.findByUserAndId(user,postId)).willReturn(Optional.of(post));
+
+        // When
+        PostResponseDto result = postService.updatePost(postId,postRequestDto, userDetails);
+
+        // Then
+        assertEquals("수정한 내용", result.getContent());
+
+    }
+
+    @Test
+    @DisplayName("단일 Post 가져오기")
+    public void testGetPost() {
+        // Given
+        Long userId = 100L;
+        User user = new User();
+        user.setId(userId);
+
+
+        Long postId = 100L;
+        PostEntity post = PostEntity.builder()
+                .Id(postId)
+                .user(user)
+                .finished(false)
+                .title("원래 제목입니다.")
+                .content("원래 내용입니다.")
+                .build();
+
+        given(postRepository.findById(postId)).willReturn(Optional.of(post));
+
+
+
+        // When
+        PostResponseDto result = postService.getPost(postId);
+
+        // Then
+        assertEquals("원래 내용입니다.", result.getContent());
+
+
+    }
 
 
 
