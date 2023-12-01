@@ -71,6 +71,39 @@ public class ReplyServiceTest {
 
     }
 
+    @Test
+    @DisplayName("댓글 생성 테스트 실패")
+    void testCreateFail() {
+        // Given
+        ReplyRequestDto replyRequestDto = new ReplyRequestDto("댓글작성");
+        Long postId = 1L;
+
+        PostEntity postEntity = new PostEntity();
+        postEntity.setId(postId);
+
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("park");
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+
+
+        Mockito.when(postRepository.findById(postId)).thenReturn(Optional.empty());
+        //Mockito.when(postRepository.findById(postId)).thenReturn(null);
+        // null을 반환하는 경우에는 orElseThrow에서 예외를 던지기 전에 null이 들어가서 NullPointerException이 발생?
+
+
+
+        // When
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> replyService.create(replyRequestDto, postId, userDetails));
+
+        //Then
+        Mockito.verify(replyRepository, Mockito.never()).save(any(ReplyEntity.class));
+        assertEquals(
+                "해당 게시글을 찾을 수 없습니다.",
+                exception.getMessage()
+        );
+    }
 
     @Test
     @DisplayName("댓글 수정 테스트")
@@ -101,6 +134,8 @@ public class ReplyServiceTest {
         // Then
         assertEquals("댓글수정입니다.", updatedReply.getContent());
     }
+
+
 
     @Test
     @DisplayName("댓글 단일 조회 테스트")
