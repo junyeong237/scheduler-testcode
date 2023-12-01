@@ -38,11 +38,14 @@ public class PostServiceTest {
     public void testCreate() {
         // Given
         Long userId = 100L;
-        PostRequestDto postRequestDto = new PostRequestDto("제목1","내용1");
+
         User user = new User();
         user.setId(userId);
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
         given(userRepository.findById(userId)).willReturn(Optional.of(user));
+
+        PostRequestDto postRequestDto = new PostRequestDto("제목1","내용1");
+
         //When
         PostResponseDto result = postService.create(postRequestDto, userDetails);
         // Then
