@@ -19,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -41,7 +42,6 @@ public class UserServiceTest {
     public void testSignup(){
 
         //Given
-        Long userId = 100L;
         SignUpRequestDto signUpRequestDto = new SignUpRequestDto("park","123456789");
         given(userRepository.findByUsername(signUpRequestDto.getUsername()))
                 .willReturn(Optional.empty());
@@ -56,6 +56,33 @@ public class UserServiceTest {
 
     }
 
+    @Test
+    @DisplayName("User 회원가입 테스트 실패 중복된 아이디 ")
 
+    public void testSignupFail(){
+
+        //Given
+        User newUSer = new User();
+        SignUpRequestDto signUpRequestDto = new SignUpRequestDto("park","123456789");
+        given(userRepository.findByUsername(signUpRequestDto.getUsername()))
+                .willReturn(Optional.of(newUSer));
+        given(passwordEncoder.encode(signUpRequestDto.getPassword())).willReturn("encodedPassword");
+
+
+        //When
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.signup(signUpRequestDto);
+        });
+
+
+
+        //Then
+        Mockito.verify(userRepository, Mockito.never()).save(any(User.class)); // save가 호출되면 안되는걸 검증
+        assertEquals(
+                "중복된 사용자가 존재합니다.",
+                exception.getMessage()
+        );
+
+    }
 
 }
