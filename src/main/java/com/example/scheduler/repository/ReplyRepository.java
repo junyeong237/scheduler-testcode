@@ -9,7 +9,5 @@ import java.util.Optional;
 
 public interface ReplyRepository extends JpaRepository<ReplyEntity, Long> {
 
-    Optional<ReplyEntity> findByUserAndPost(User user, PostEntity post);
-
     Optional<ReplyEntity> findByUserAndId(User user, Long id);
 }
