@@ -21,7 +21,7 @@ public class UserRepositoryTest {
 
     @Test
     @DisplayName("UserRepository 테스트")
-    void findByUsername_ExistingUser_ShouldReturnUser() {
+    void test() {
         // Given
         String username = "park";
         User user = User.builder().username(username).password("password").build();
@@ -33,6 +33,22 @@ public class UserRepositoryTest {
         // Then
         assertTrue(resultUser.isPresent());
         assertEquals(username, resultUser.get().getUsername());
+    }
+
+
+    @Test
+    @DisplayName("UserRepository 테스트 실패")
+    void testFail() {
+        // Given
+        String username = "park";
+        User user = User.builder().username(username).password("password").build();
+        userRepository.save(user);
+
+        // When
+        Optional<User> resultUser = userRepository.findByUsername("다른거");
+
+        // Then
+        assertFalse(resultUser.isPresent());
     }
 
 
