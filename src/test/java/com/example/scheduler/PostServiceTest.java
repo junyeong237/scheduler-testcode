@@ -13,12 +13,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ActiveProfiles("test")
@@ -45,11 +47,11 @@ public class PostServiceTest {
         given(userRepository.findById(userId)).willReturn(Optional.of(user));
 
         PostRequestDto postRequestDto = new PostRequestDto("제목1","내용1");
-
         //When
         PostResponseDto result = postService.create(postRequestDto, userDetails);
         // Then
         assertEquals("내용1", result.getContent());
+        Mockito.verify(postRepository, Mockito.times(1)).save(any(PostEntity.class));
 
     }
 
