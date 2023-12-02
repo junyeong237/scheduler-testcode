@@ -42,15 +42,6 @@ public class UserController {
     @PostMapping("/user/signup")
     @ResponseBody
     public ResponseEntityDto<?> signup(@Valid @ModelAttribute SignUpRequestDto requestDto) {
-        //, BindingResult bindingResult //이걸 뺴주니까 MethodArgumentNotValidException 정상작동함
-       //Validation 예외처리
-//        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-//        if(fieldErrors.size() > 0) {
-//            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-//                log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());
-//            }
-//            return new ResponseEntityDto<>(HttpStatus.BAD_REQUEST,"회원가입이 안됩니다.",null);
-//        }
         userService.signup(requestDto);
         return new ResponseEntityDto<>(HttpStatus.CREATED,"회원가입이 완료되었습니다.",null);
 
