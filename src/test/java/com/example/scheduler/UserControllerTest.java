@@ -96,6 +96,10 @@ class UserControllerTest {
         mvc.perform(post("/user/signup")
                         //.contentType(MediaType.APPLICATION_FORM_URLENCODED)  // 폼 데이터를 전송할 것임을 명시
                         .params(signupRequestForm)
+                        //post 메서드에도 .param()을 사용할 수 있지만,
+                        //이는 주로 application/x-www-form-urlencoded 형식의 데이터를 전송할 때 유용합니다.
+
+
                 )
 
                 .andExpect(status().isOk())
