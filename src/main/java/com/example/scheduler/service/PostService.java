@@ -43,6 +43,7 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
+    @Transactional(readOnly = true) // 오류가떠서 일단 이렇게 바꿈... 지연로딩시 transactional 필요
     public List<PostResponseDto> getPosts(UserDetailsImpl userDetails) {
 
         User user = getUser(userDetails);
