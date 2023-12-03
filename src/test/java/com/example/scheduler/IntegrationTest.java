@@ -41,27 +41,27 @@ class IntegrationTest {
 
     PostResponseDto createdPost = null;
     ReplyResponseDto createdReply = null;
-//    @Test
-//    @Order(1)
-//    @DisplayName("신규 회원가입")
-//    void testSignup() {
-//        // given
-//        String username = "testUser1";
-//        String password = "1234567890";
-//
-//        SignUpRequestDto signUpRequestDto = new SignUpRequestDto(username, password);
-//
-//        // when
-//        userService.signup(signUpRequestDto);
-//
-//        // then
-//        User savedUser = userRepository.findByUsername(username)
-//                .orElseThrow(() -> new AssertionError("회원가입이 정상적으로 이루어지지 않았습니다."));
-//
-//        assertNotNull(savedUser);
-//        assertEquals(username, savedUser.getUsername());
-//
-//    }
+    @Test
+    @Order(1)
+    @DisplayName("신규 회원가입")
+    void testSignup() {
+        // given
+        String username = "testUser1";
+        String password = "1234567890";
+
+        SignUpRequestDto signUpRequestDto = new SignUpRequestDto(username, password);
+
+        // when
+        userService.signup(signUpRequestDto);
+
+        // then
+        User savedUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AssertionError("회원가입이 정상적으로 이루어지지 않았습니다."));
+
+        assertNotNull(savedUser);
+        assertEquals(username, savedUser.getUsername());
+
+    }
 
     @Test
     @Order(2)
