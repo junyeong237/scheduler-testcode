@@ -40,6 +40,7 @@ class IntegrationTest {
     User user;
 
     PostResponseDto createdPost = null;
+    ReplyResponseDto createdReply = null;
 //    @Test
 //    @Order(1)
 //    @DisplayName("신규 회원가입")
@@ -159,6 +160,7 @@ class IntegrationTest {
 
         //When
         ReplyResponseDto responseDto = replyService.create(replyRequestDto, postId,userDetails);
+        this.createdReply = responseDto;
 
         // Then
         assertNotNull(responseDto);
@@ -176,10 +178,10 @@ class IntegrationTest {
         user = userRepository.findByUsername("testUser1").orElse(null);
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
         ReplyRequestDto replyRequestDto = new ReplyRequestDto("댓글 수정입니다.");
-        Long postId = this.createdPost.getId();
+        Long replyId = this.createdReply.getId();
 
         //When
-        ReplyResponseDto responseDto = replyService.updateReply(postId,replyRequestDto,userDetails);
+        ReplyResponseDto responseDto = replyService.updateReply(replyId,replyRequestDto,userDetails);
 
         // Then
         assertNotNull(responseDto);
@@ -195,10 +197,10 @@ class IntegrationTest {
         //Given
         user = userRepository.findByUsername("testUser1").orElse(null);
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
-        Long postId = this.createdPost.getId();
+        Long replyId = this.createdReply.getId();
 
         //When
-        replyService.deleteReply(postId,userDetails);
+        replyService.deleteReply(replyId,userDetails);
 
         // Then
         //Mockito.verify(replyRepository).delete(any(ReplyEntity.class));
@@ -207,7 +209,7 @@ class IntegrationTest {
 
         //따라서 억지검증을 하자면
 
-        ReplyEntity reply = replyRepository.findByUserAndId(user,postId).orElse(null);
+        ReplyEntity reply = replyRepository.findByUserAndId(user,replyId).orElse(null);
 
         assertNull(reply);
 
