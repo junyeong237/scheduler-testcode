@@ -79,6 +79,7 @@ public class PostService {
         postRepository.delete(postEntity);
     }
 
+    @Transactional(readOnly = true)
     public List<PostResponseDto> getPostsAll() {
 
         List<PostEntity> postList = postRepository.findAll();

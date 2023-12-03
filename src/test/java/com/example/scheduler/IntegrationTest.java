@@ -118,4 +118,43 @@ class IntegrationTest {
     }
 
 
+    @Test
+    @Order(4)
+    @DisplayName("모든 게시글 조회")
+    void testPostGetAll() {
+        //Given
+
+        //When
+        List<PostResponseDto> postList = postService.getPostsAll();
+
+        // Then
+        assertFalse(postList.isEmpty());
+
+        for (PostResponseDto post : postList) {
+            assertNotNull(post);
+        }
+
+
+    }
+
+//    @Test
+//    @Order(5)
+//    @DisplayName("로그인 유저의 댓글생성 ")
+//    void testPostGet() {
+//        //Given
+//        user = userRepository.findByUsername("testUser1").orElse(null);
+//        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+//
+//        //When
+//        List<PostResponseDto> postList = postService.getPosts(userDetails);
+//
+//        // Then
+//        assertFalse(postList.isEmpty());
+//
+//        assertEquals("게시물 제목수정", postList.get(0).getTitle());
+//
+//    }
+
+
+
 }
