@@ -1,4 +1,4 @@
-package com.example.scheduler;
+package com.example.scheduler.controller;
 
 
 import com.example.scheduler.config.WebSecurityConfig;
@@ -41,8 +41,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -252,6 +251,40 @@ public class PostControllerTest {
 
     }
 
+
+    @Test
+    @DisplayName("해당 유저의 게시글 삭제")
+    void testPostDelete() throws Exception {
+        // given
+        Long postId1 = 1L;
+        String title = "제목1입니다.";
+        String content = "내용1입니다.";
+        PostEntity newPost1 = PostEntity.builder()
+                .Id(postId1)
+                .user(testUserDetails.getUser())
+                .title(title)
+                .content(content)
+                .build();
+
+        //given(postService.deletePost(postId1, testUserDetails))
+        // deletePost가 void 형을 반환해서 given. willReturn 사용불가
+
+        doNothing().when(postService).deletePost(postId1, testUserDetails);
+        //doNothing()은 Mockito에서 사용되는 메서드 중 하나로, 특정 메서드의 호출 시 아무런 동작도 하지 않도록 설정하는 데 사용됩니다.
+
+        // when - then
+        mvc.perform(delete("/post/delete/{id}", postId1)
+                        //.accept(MediaType.APPLICATION_JSON) //없어도 오류 안남
+                        .principal(mockPrincipal))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.resultCode").value("OK"))
+                .andExpect(jsonPath("$.resultMessage").value("게시글 삭제완료"))
+                .andExpect(jsonPath("$.data").doesNotExist());
+       // null 값이 JSON 응답으로 전송될 때, JSON에서는 해당 필드가 존재하지 않는 것과 null이 모두 동일한 의미를 가집니다
+
+        // then
+        verify(postService, times(1)).deletePost(any(Long.class),any(UserDetailsImpl.class));
+    }
 
 
 

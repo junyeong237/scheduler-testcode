@@ -24,7 +24,7 @@ public class PostService {
     public PostResponseDto create(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
 
         User user = getUser(userDetails);
-
+        //User user = userDetails.getUser();
         PostEntity postEntity = PostEntity.builder()
                 .user(user)
                 .finished(false)

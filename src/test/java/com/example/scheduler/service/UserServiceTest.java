@@ -1,4 +1,4 @@
-package com.example.scheduler;
+package com.example.scheduler.service;
 
 import com.example.scheduler.dto.PostRequestDto;
 import com.example.scheduler.dto.SignUpRequestDto;

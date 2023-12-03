@@ -1,4 +1,4 @@
-package com.example.scheduler;
+package com.example.scheduler.controller;
 
 import com.example.scheduler.config.WebSecurityConfig;
 import com.example.scheduler.controller.UserController;

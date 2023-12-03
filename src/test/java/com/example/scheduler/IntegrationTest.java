@@ -195,8 +195,7 @@ class IntegrationTest {
         //Given
         user = userRepository.findByUsername("testUser1").orElse(null);
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
-        //Long postId = this.createdPost.getId();
-        Long postId = 21L;
+        Long postId = this.createdPost.getId();
 
         //When
         replyService.deleteReply(postId,userDetails);

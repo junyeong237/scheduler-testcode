@@ -1,4 +1,4 @@
-package com.example.scheduler;
+package com.example.scheduler.entity;
 
 import com.example.scheduler.dto.*;
 import com.example.scheduler.entity.PostEntity;
