@@ -26,9 +26,11 @@ public class User{ //extends TimeStamped
 
 
         @OneToMany(mappedBy = "user") //,fetch = FetchType.EAGER
+        @ToString.Exclude
         private List<PostEntity> postList = new ArrayList<>();
 
         @OneToMany(mappedBy = "user") //,fetch = FetchType.EAGER
+        @ToString.Exclude
         private List<ReplyEntity> replylist = new ArrayList<>();
 
         public void addPostList(PostEntity post){

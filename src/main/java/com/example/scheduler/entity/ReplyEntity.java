@@ -18,10 +18,10 @@ public class ReplyEntity extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     @JsonIgnore
-    //@ToString.Exclude
     private User user;
 
     @Column(nullable = false)
@@ -30,9 +30,10 @@ public class ReplyEntity extends Timestamped {
     @Column(nullable = false)
     private String username;
 
-    @ManyToOne //(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postId")
     @JsonIgnore
+    //@ToString.Exclude
     private PostEntity post;
 
     public void update(ReplyRequestDto replyRequestDto) {

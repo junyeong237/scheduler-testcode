@@ -30,10 +30,9 @@ public class PostEntity extends Timestamped {
     private String content;
 
 
-    @ManyToOne // (fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     @JsonIgnore
-    //@ToString.Exclude //?????
     private User user;
 
     @OneToMany(mappedBy = "post",cascade = {CascadeType.REMOVE})

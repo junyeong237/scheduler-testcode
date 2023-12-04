@@ -16,15 +16,18 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-
+    @Transactional
     public PostResponseDto create(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
 
         User user = getUser(userDetails);
-        //User user = userDetails.getUser();
+        //User user1 = userDetails.getUser();
+        //userDetails는 유저정보만 최대한 사용
+
         PostEntity postEntity = PostEntity.builder()
                 .user(user)
                 .finished(false)
@@ -43,7 +46,7 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
-    @Transactional(readOnly = true) // 오류가떠서 일단 이렇게 바꿈... 지연로딩시 transactional 필요
+
     public List<PostResponseDto> getPosts(UserDetailsImpl userDetails) {
 
         User user = getUser(userDetails);
@@ -71,6 +74,7 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
+    @Transactional
     public void deletePost(Long postId,UserDetailsImpl userDetails) {
         User user = getUser(userDetails);
 
@@ -79,7 +83,6 @@ public class PostService {
         postRepository.delete(postEntity);
     }
 
-    @Transactional(readOnly = true)
     public List<PostResponseDto> getPostsAll() {
 
         List<PostEntity> postList = postRepository.findAll();
