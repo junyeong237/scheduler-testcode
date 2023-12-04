@@ -115,7 +115,9 @@ public class PostControllerTest {
         mvc.perform(post("/post/create")
                         .content(postInfo)
                         .contentType(MediaType.APPLICATION_JSON) //이건 없으면 오류
-                        //.accept(MediaType.APPLICATION_JSON) //굳이 있어야하나?
+                         //content가 json타입으로 되어있다고 알려줌
+                        .accept(MediaType.APPLICATION_JSON) //굳이 있어야하나? //없어도된다.
+                        // 이 api가 json타입의 데이터를 허용해주겠다.............
                         .principal(mockPrincipal)
                 )
                 .andExpect(status().isOk())
@@ -149,7 +151,7 @@ public class PostControllerTest {
         mvc.perform(put("/post/update/{id}", postId)
                         .content(postUpdateInfo)
                         .contentType(MediaType.APPLICATION_JSON) //필수
-                        //.accept(MediaType.APPLICATION_JSON) //없어도 오류 안남
+                        .accept(MediaType.APPLICATION_JSON) //없어도 오류 안남
                         .principal(mockPrincipal)
                 )
                 .andExpect(status().isOk())
@@ -187,7 +189,7 @@ public class PostControllerTest {
         mvc.perform(put("/post/update/{id}", postId)
                         .content(postUpdateInfo)
                         .contentType(MediaType.APPLICATION_JSON) //필수
-                        //.accept(MediaType.APPLICATION_JSON) //없어도 오류 안남
+                        .accept(MediaType.APPLICATION_JSON) //없어도 오류 안남
                         .principal(mockPrincipal)
                 )
                 .andExpect(status().isBadRequest());
@@ -274,7 +276,8 @@ public class PostControllerTest {
 
         // when - then
         mvc.perform(delete("/post/delete/{id}", postId1)
-                        //.accept(MediaType.APPLICATION_JSON) //없어도 오류 안남
+                        .accept(MediaType.APPLICATION_JSON) //없어도 오류 안남
+
                         .principal(mockPrincipal))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.resultCode").value("OK"))
